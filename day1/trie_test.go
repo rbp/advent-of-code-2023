@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestTrieEmpty(t *testing.T) {
-	trie := NewTrieNode()
+	trie := newTrieNode()
 
 	if len(trie.chars) != 0 {
 		t.Fatal("Trie chars is not empty")
@@ -11,7 +11,7 @@ func TestTrieEmpty(t *testing.T) {
 }
 
 func TestTrieOneElement(t *testing.T) {
-	trie := NewTrieNode()
+	trie := newTrieNode()
 
 	trie.insert("foo")
 	if !(len(trie.chars) == 1 &&
@@ -38,7 +38,7 @@ func TestTrieOneElement(t *testing.T) {
 }
 
 func TestTrieOverlappingElements(t *testing.T) {
-	trie := NewTrieNode()
+	trie := newTrieNode()
 
 	trie.insert("foo")
 	trie.insert("fold")
@@ -82,7 +82,7 @@ func TestTrieOverlappingElements(t *testing.T) {
 }
 
 func TestTrieNonOverlapping(t *testing.T) {
-	trie := NewTrieNode()
+	trie := newTrieNode()
 
 	trie.insert("foo")
 	trie.insert("fold")
@@ -133,7 +133,7 @@ func TestTrieNonOverlapping(t *testing.T) {
 }
 
 func TestTrieFind(t *testing.T) {
-	trie := NewTrieNode()
+	trie := newTrieNode()
 
 	trie.insert("foo")
 	trie.insert("fold")
@@ -161,7 +161,7 @@ func TestTrieFind(t *testing.T) {
 }
 
 func TestTrieFindSubstr(t *testing.T) {
-	trie := NewTrieNode()
+	trie := newTrieNode()
 
 	trie.insert("foo")
 	trie.insert("fold")

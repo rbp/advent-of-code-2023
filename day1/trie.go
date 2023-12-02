@@ -6,7 +6,7 @@ type trieNode struct {
 	chars map[byte]*trieNode
 }
 
-func NewTrieNode(value ...byte) *trieNode {
+func newTrieNode(value ...byte) *trieNode {
 	var v byte
 	if len(value) != 0 {
 		v = value[0]
@@ -22,7 +22,7 @@ func (t *trieNode) insert(s string) {
 	for _, sc := range s {
 		c := byte(sc)
 		if _, ok := node.chars[c]; !ok {
-			node.chars[c] = NewTrieNode(c)
+			node.chars[c] = newTrieNode(c)
 		}
 		node = node.chars[c]
 	}

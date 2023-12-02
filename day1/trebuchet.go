@@ -1,17 +1,11 @@
 package main
 
 import (
-	"bufio"
+	"advent"
 	"fmt"
 	"os"
 	"strconv"
 )
-
-func panicIfErr(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
 
 func isNum(c byte) bool {
 	return c >= byte('0') && c <= byte('9')
@@ -21,7 +15,7 @@ func isSpelledOut(s string) (byte, error) {
 	// Returns the number spelled out in the string, as a byte
 	// The spelled out number must start at the start of the string, but may have a suffix
 	// If the string does not spell out a number, returns an error.
-	trie := NewTrieNode()
+	trie := newTrieNode()
 	numbers := map[string]byte{
 		"one":   '1',
 		"two":   '2',
@@ -77,20 +71,14 @@ func lineValue(line string) int {
 		findLastNum(line),
 	}
 	num, err := strconv.Atoi(string(digits))
-	panicIfErr(err)
+	advent.PanicIfErr(err)
 	return num
 
 }
 
 func main() {
-	f, err := os.Open(os.Args[1])
-	panicIfErr(err)
-	defer f.Close()
-
-	scanner := bufio.NewScanner(f)
 	total := 0
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, line := range advent.Readlines(os.Args[1]) {
 		total += lineValue(line)
 	}
 	fmt.Println(total)
