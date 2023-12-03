@@ -37,7 +37,8 @@ func parseDraw(s string) map[string]int {
 	return draw
 }
 
-func lineValue(line string) int {
+// parseLine returns a gameID and a list of draws
+func parseLine(line string) (int, []map[string]int) {
 	parts := strings.Split(line, ":")
 	idPart := strings.TrimSpace(parts[0])
 	drawsPart := strings.TrimSpace(parts[1])
@@ -46,9 +47,20 @@ func lineValue(line string) int {
 	gameID, err := strconv.Atoi(match[1])
 	advent.PanicIfErr(err)
 
-	draws := strings.Split(drawsPart, ";")
-	for _, drawStr := range draws {
+	lineDraws := strings.Split(drawsPart, ";")
+	draws := make([]map[string]int, len(lineDraws))
+	for _, drawStr := range lineDraws {
 		draw := parseDraw(strings.TrimSpace(drawStr))
+		draws = append(draws, draw)
+	}
+	return gameID, draws
+
+}
+
+func gameIDIfValid(line string) int {
+	gameID, draws := parseLine(line)
+
+	for _, draw := range draws {
 		if !isValid(draw) {
 			return 0
 		}
@@ -56,10 +68,27 @@ func lineValue(line string) int {
 	return gameID
 }
 
+func gamePower(line string) int {
+	_, draws := parseLine(line)
+
+	min := make(map[string]int)
+	for _, draw := range draws {
+		for colour, qty := range draw {
+			if min[colour] < qty {
+				min[colour] = qty
+			}
+		}
+	}
+	return min["red"] * min["green"] * min["blue"]
+}
+
 func main() {
 	total := 0
+	totalPower := 0
 	for _, line := range advent.Readlines(os.Args[1]) {
-		total += lineValue(line)
+		total += gameIDIfValid(line)
+		totalPower += gamePower(line)
 	}
-	fmt.Println(total)
+	fmt.Printf("Part 1: %d\n", total)
+	fmt.Printf("Part 2: %d\n", totalPower)
 }
