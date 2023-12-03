@@ -1,4 +1,4 @@
-module ac2023/day1
+module day1
 
 go 1.20
 
