@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -30,9 +29,7 @@ func parseDraw(s string) map[string]int {
 	draw := make(map[string]int)
 
 	for _, match := range reDraw.FindAllStringSubmatch(s, -1) {
-		qty, err := strconv.Atoi(match[1])
-		advent.PanicIfErr(err)
-		draw[match[2]] = qty
+		draw[match[2]] = advent.MustAtoi(match[1])
 	}
 	return draw
 }
@@ -44,8 +41,7 @@ func parseLine(line string) (int, []map[string]int) {
 	drawsPart := strings.TrimSpace(parts[1])
 
 	match := reGameID.FindStringSubmatch(idPart)
-	gameID, err := strconv.Atoi(match[1])
-	advent.PanicIfErr(err)
+	gameID := advent.MustAtoi(match[1])
 
 	lineDraws := strings.Split(drawsPart, ";")
 	draws := make([]map[string]int, len(lineDraws))

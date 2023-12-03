@@ -2,6 +2,7 @@ package advent
 
 import (
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -23,4 +24,15 @@ func Readlines(filename string) []string {
 	bytes, err := os.ReadFile(filename)
 	PanicIfErr(err)
 	return strings.Split(strings.TrimRight(string(bytes), "\n"), "\n")
+}
+
+// IsNum returns true if c is a (byte represetation of a) number
+func IsNum(c byte) bool {
+	return c >= byte('0') && c <= byte('9')
+}
+
+func MustAtoi(s string) int {
+	n, err := strconv.Atoi(s)
+	PanicIfErr(err)
+	return n
 }

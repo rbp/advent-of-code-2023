@@ -1,6 +1,6 @@
 module day1
 
-go 1.20
+go 1.21
 
 require advent v0.0.1
 

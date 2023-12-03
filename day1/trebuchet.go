@@ -4,12 +4,7 @@ import (
 	"advent"
 	"fmt"
 	"os"
-	"strconv"
 )
-
-func isNum(c byte) bool {
-	return c >= byte('0') && c <= byte('9')
-}
 
 func isSpelledOut(s string) (byte, error) {
 	// Returns the number spelled out in the string, as a byte
@@ -37,7 +32,7 @@ func isSpelledOut(s string) (byte, error) {
 }
 
 func findNumberAt(line string, pos int) (byte, error) {
-	if isNum(line[pos]) {
+	if advent.IsNum(line[pos]) {
 		return line[pos], nil
 	}
 	if n, err := isSpelledOut(line[pos:]); err == nil {
@@ -70,9 +65,7 @@ func lineValue(line string) int {
 		findFirstNum(line),
 		findLastNum(line),
 	}
-	num, err := strconv.Atoi(string(digits))
-	advent.PanicIfErr(err)
-	return num
+	return advent.MustAtoi(string(digits))
 
 }
 
