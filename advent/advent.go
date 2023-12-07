@@ -2,6 +2,7 @@ package advent
 
 import (
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -35,4 +36,13 @@ func MustAtoi(s string) int {
 	n, err := strconv.Atoi(s)
 	PanicIfErr(err)
 	return n
+}
+
+func LineToNumbers(line string) []int {
+	stringed := regexp.MustCompile(`\s+`).Split(line, -1)
+	nums := make([]int, len(stringed))
+	for i, s := range stringed {
+		nums[i] = MustAtoi(s)
+	}
+	return nums
 }

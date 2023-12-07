@@ -1,33 +1,33 @@
 package main
 
-type Mapunit struct {
+type mapping struct {
 	destStart   int
 	sourceStart int
 	rangeLen    int
 }
 
-func (m *Mapunit) srcMatches(src int) bool {
-	return src >= m.sourceStart && src <= m.sourceStart+m.rangeLen
+func (m *mapping) containsSource(src int) bool {
+	return src >= m.sourceStart && src < m.sourceStart+m.rangeLen
 }
 
-type Catmap struct {
-	maps    []*Mapunit
-	maptree *MapTreeNode
+type categoryMap struct {
+	maps    []*mapping
+	maptree *mapTreeNode
 }
 
-func NewCatmap(maps []*Mapunit) *Catmap {
-	catmap := Catmap{maps: maps}
+func newCategoryMap(maps []*mapping) *categoryMap {
+	catmap := categoryMap{maps: maps}
 
-	catmap.maptree = &MapTreeNode{mapunit: maps[0]}
+	catmap.maptree = &mapTreeNode{mapunit: maps[0]}
 	for _, mapunit := range maps[1:] {
 		catmap.maptree.add(
-			&MapTreeNode{mapunit: mapunit},
+			&mapTreeNode{mapunit: mapunit},
 		)
 	}
 	return &catmap
 }
 
-func (c *Catmap) find(src int) int {
+func (c *categoryMap) find(src int) int {
 	dst := c.maptree.find(src)
 	if dst >= 0 {
 		return dst
@@ -36,13 +36,13 @@ func (c *Catmap) find(src int) int {
 	return src
 }
 
-type MapTreeNode struct {
-	mapunit *Mapunit
-	left    *MapTreeNode
-	right   *MapTreeNode
+type mapTreeNode struct {
+	mapunit *mapping
+	left    *mapTreeNode
+	right   *mapTreeNode
 }
 
-func (tree *MapTreeNode) add(node *MapTreeNode) {
+func (tree *mapTreeNode) add(node *mapTreeNode) {
 	if node.mapunit.sourceStart < tree.mapunit.sourceStart {
 		if tree.left == nil {
 			tree.left = node
@@ -61,10 +61,10 @@ func (tree *MapTreeNode) add(node *MapTreeNode) {
 }
 
 // FindMapping returns the correct destination for the given source
-func (tree *MapTreeNode) find(src int) int {
-	if tree.mapunit.srcMatches(src) {
-		r := src - tree.mapunit.sourceStart
-		return tree.mapunit.destStart + r
+func (tree *mapTreeNode) find(src int) int {
+	if tree.mapunit.containsSource(src) {
+		delta := src - tree.mapunit.sourceStart
+		return tree.mapunit.destStart + delta
 	}
 	if tree.left != nil && src < tree.mapunit.sourceStart {
 		return tree.left.find(src)
