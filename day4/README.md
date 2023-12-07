@@ -1,0 +1,1 @@
+I'd heard scary things about this day, and people had mentioned dynamic programming. In the end, that's (somewhat) what I did. But what I found interesting is that I wasn't purposefully thinking of a dynamic programming solution. It just felt natural to accumulate the number of cards as I iterated over the input. And indeed it paid off.
