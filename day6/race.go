@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -23,6 +24,15 @@ func parseInput(lines []string) []race {
 		races[i] = race{times[i], distances[i]}
 	}
 	return races
+}
+
+func parseAggregatedInput(lines []string) race {
+	timeLine := strings.TrimSpace(strings.Split(lines[0], ":")[1])
+	distanceLine := strings.TrimSpace(strings.Split(lines[1], ":")[1])
+
+	time := advent.MustAtoi(regexp.MustCompile(`\s+`).ReplaceAllString(timeLine, ""))
+	distance := advent.MustAtoi(regexp.MustCompile(`\s+`).ReplaceAllString(distanceLine, ""))
+	return race{time, distance}
 }
 
 // / btnBoundaries return 2 ints (lower, higher) around which you can hold the button and win the race.
@@ -80,4 +90,8 @@ func main() {
 	lines := advent.Readlines(os.Args[1])
 	races := parseInput(lines)
 	fmt.Printf("Part 1: %v\n", allWaysToWin(races))
+
+	singleRace := parseAggregatedInput(lines)
+	fmt.Printf("Part 2: %v\n", waysToWin(singleRace))
+
 }
