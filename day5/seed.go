@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-	"runtime"
 )
 
 type Almanac struct {
@@ -128,8 +127,6 @@ func findLowestLocationFromRanges(lines []string) int {
 }
 
 func main() {
-	runtime.GOMAXPROCS(4)
-
 	lines := advent.Readlines(os.Args[1])
 	location := findLowestLocation(lines)
 	fmt.Printf("Part 1: %d\n", location)
