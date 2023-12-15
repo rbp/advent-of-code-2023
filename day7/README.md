@@ -1,0 +1,3 @@
+Part 1 was straightforward. I was surprised to find that 1) there are several different ways to sort a slice in Go (sort.\*, slices.Sort{,Func}, cmp). And 2) that none of them uses a key, they take a "cmp"-like function. I have it in my head to implement Python's PowerSort in Go and make it available as a package. Would be a nice project.
+
+The thing I'm the least satisfied about this code is the naming...
