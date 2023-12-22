@@ -18,7 +18,7 @@ type Map struct {
 func (m *Map) nextTurn() int {
 	i := m._nextTurn
 	if i == len(m.directions)-1 {
-		m._nextTurn = 0
+		m.resetTurns()
 	} else {
 		m._nextTurn++
 	}
@@ -29,13 +29,17 @@ func (m *Map) nextTurn() int {
 	return lrToInt[m.directions[i]]
 }
 
+func (m *Map) resetTurns() {
+	m._nextTurn = 0
+}
+
 func parseLines(lines []string) *Map {
 	m := &Map{directions: lines[0], nodes: make(map[string][2]string)}
 
 	// Line 1 is empty
 	for i := 2; i < len(lines); i++ {
 		parts := strings.Split(lines[i], " = ")
-		reNodes := regexp.MustCompile(`\(([A-Z]{3}), ([A-Z]{3})\)`)
+		reNodes := regexp.MustCompile(`\(([A-Z0-9]{3}), ([A-Z0-9]{3})\)`)
 		match := reNodes.FindStringSubmatch(parts[1])
 		m.nodes[parts[0]] = [2]string{match[1], match[2]}
 	}
@@ -46,6 +50,9 @@ func stepsToZZZ(m *Map) int {
 	steps := 0
 	node := "AAA"
 	for node != "ZZZ" {
+		if _, ok := m.nodes[node]; !ok {
+			return 0
+		}
 		node = m.nodes[node][m.nextTurn()]
 		steps++
 	}
@@ -56,5 +63,4 @@ func main() {
 	lines := advent.Readlines(os.Args[1])
 	m := parseLines(lines)
 	fmt.Printf("Part 1: %d\n", stepsToZZZ(m))
-
 }
