@@ -1,0 +1,1 @@
+I like a good maze. Which this isn't... But it was interesting nonetheless. In part 1, I got a bit confused with the pointer de-referencing syntax and Go's equality comparison of structs, but as soon as that was sorted out, it was all fine.
