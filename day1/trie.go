@@ -41,7 +41,7 @@ func (t *trieNode) find(s string) bool {
 }
 
 func (t *trieNode) findSubstr(s string) bool {
-	// Tries (heh) to find a substring of in the trie
+	// Tries (heh) to find a substring of s in the trie
 	// i.e., if s is "foobar", and the trie contains "foo",
 	// the function will return true
 	node := t
